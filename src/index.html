@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f4f0">
+  <title>メイドアクセサリー設計</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Accessory Designer</h1>
+      <p>メイドアクセサリー設計ツール</p>
+    </div>
+    <div class="header-actions">
+      <button id="undoBtn" type="button" title="元に戻す">↶</button>
+      <button id="redoBtn" type="button" title="やり直す">↷</button>
+    </div>
+  </header>
+
+  <main>
+    <nav class="mode-switch">
+      <button id="designModeBtn" class="active" type="button">設計モード</button>
+      <button id="freeModeBtn" type="button">デザインモード</button>
+    </nav>
+
+    <section class="toolbar">
+      <div class="toolbar-group">
+        <label for="partType">パーツ追加</label>
+        <select id="partType">
+          <option value="bead">ビーズ</option>
+          <option value="pearl">パール</option>
+          <option value="jumpRing">丸カン</option>
+          <option value="pin">丸ピン</option>
+          <option value="tPin">Tピン</option>
+          <option value="ninePin">9ピン</option>
+          <option value="chain">チェーン</option>
+          <option value="charm">チャーム</option>
+          <option value="other">その他金具</option>
+        </select>
+        <button id="addPartBtn" type="button">＋ 追加</button>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="canvas-wrap">
+        <svg id="canvas"
+             viewBox="0 0 1000 700"
+             xmlns="http://www.w3.org/2000/svg"
+             aria-label="アクセサリー設計キャンバス">
+          <defs>
+            <pattern id="gridPattern" width="25" height="25"
+                     patternUnits="userSpaceOnUse">
+              <path d="M 25 0 L 0 0 0 25"
+                    fill="none" stroke="#e9e4de" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="1000" height="700" fill="#fff"/>
+          <rect width="1000" height="700" fill="url(#gridPattern)"/>
+          <g id="connectionLayer"></g>
+          <g id="partLayer"></g>
+        </svg>
+      </div>
+
+      <aside class="side-panel">
+        <h2>パーツ情報</h2>
+        <p id="selectionMessage">パーツを選択してください。</p>
+
+        <div id="partEditor" hidden>
+          <label for="partName">名前</label>
+          <input id="partName" type="text">
+
+          <label for="physicalWidth">実寸・幅（mm）</label>
+          <input id="physicalWidth" type="number" min="0.1" step="0.1">
+
+          <label for="physicalHeight">実寸・高さ（mm）</label>
+          <input id="physicalHeight" type="number" min="0.1" step="0.1">
+
+          <label for="displayScale">表示倍率</label>
+          <input id="displayScale" type="number" min="0.1" max="10" step="0.1">
+
+          <label for="partColor">色</label>
+          <input id="partColor" type="color">
+
+          <button id="applyPartBtn" type="button">変更を適用</button>
+          <button id="duplicateBtn" type="button">複製</button>
+          <button id="deleteBtn" class="danger" type="button">削除</button>
+        </div>
+
+        <hr>
+
+        <h2>接続</h2>
+        <p class="help">
+          接続したいパーツを2つ選択してから接続ボタンを押してください。
+        </p>
+        <button id="connectBtn" type="button">選択したパーツを接続</button>
+        <button id="disconnectBtn" type="button">選択パーツ間の接続解除</button>
+
+        <hr>
+
+        <h2>レイヤー</h2>
+        <div id="layerList"></div>
+        <div class="layer-actions">
+          <input id="newLayerName" type="text" placeholder="レイヤー名">
+          <button id="addLayerBtn" type="button">追加</button>
+        </div>
+
+        <hr>
+
+        <h2>データ</h2>
+        <button id="saveBtn" type="button">保存</button>
+        <button id="exportBtn" type="button">JSON書き出し</button>
+        <label class="file-label">
+          JSON読み込み
+          <input id="importFile" type="file" accept=".json,application/json">
+        </label>
+        <button id="resetBtn" class="danger" type="button">全消去</button>
+      </aside>
+    </section>
+
+    <footer class="app-footer">
+      <span id="statusMessage">準備完了</span>
+      <span id="modeMessage">設計モード</span>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
